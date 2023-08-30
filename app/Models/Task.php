@@ -11,4 +11,9 @@ class Task extends Model
 
     // protected $garded = [];
     // protected $fillable = ['name', 'description'];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

@@ -17,6 +17,8 @@ return new class extends Migration
             $table->text('description');
             $table->boolean('completed')->default(false);
             $table->timestamp('completed_at')->nullable();
+            $table->string('slug')->unique();
+            $table->foreignId('user_id')->nullable();
             $table->timestamps();
         });
     }
