@@ -18,10 +18,17 @@ use PhpParser\Node\Stmt\Return_;
 */
 
 Route::get('/', function () {
+
+    $task = Task::with('user');
+
+    if (request('search')) {
+        $task
+            ->where('title', 'like', '%' . request('search') . '%')
+            ->orWhere('description', 'like', '%' . request('search') . '%');
+    }
+
     return view('tasks', [
-        'tasks' => Cache::rememberForever('tasks', function() {
-            return Task::with('user')->get();
-        })
+        'tasks' => $task->get()
     ]);
 });
 

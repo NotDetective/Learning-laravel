@@ -4,9 +4,18 @@
 
 <h1>Task List</h1>
 
-@foreach ( $tasks as $task)
-    <p>id of task is: {{$task->id}}</p>
+<form method="GET" action="#" name="searchForTask">
+    <input type="text" name="search" placeholder="search for task">
+</form>
 
+<a href="/">
+    <button>
+        clear search
+    </button>
+</a>
+
+@if (!$tasks->count() == 0)
+    @foreach ( $tasks as $task)
     <a href="tasks/{{$task->slug}}">
         <h1>{{$task->title}}</h1>
     </a>
@@ -16,6 +25,12 @@
     </a>
 
     <p>{{$task->slug}}</p>
-@endforeach
+    @endforeach
+@else
+
+    <p>No task found</p>
+
+@endif
+
 
 @endsection
