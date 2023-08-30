@@ -8,6 +8,15 @@
     <link rel="stylesheet" href="/basic-style.css">
 </head>
 <body>
+
+    @if (session()->has('success'))
+
+        <div>
+            <p>{{session('success')}}</p>
+        </div>
+        
+    @endif
+
     
     <header>
 

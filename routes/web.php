@@ -1,10 +1,11 @@
 <?php
 
-use App\Models\Task;
+use App\Http\Controllers\TaskController;
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\SessionsController;
 use App\Models\User;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
-use PhpParser\Node\Stmt\Return_;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,26 +18,9 @@ use PhpParser\Node\Stmt\Return_;
 |
 */
 
-Route::get('/', function () {
+Route::get('/', [TaskController::class, 'index']);
 
-    $task = Task::with('user');
-
-    if (request('search')) {
-        $task
-            ->where('title', 'like', '%' . request('search') . '%')
-            ->orWhere('description', 'like', '%' . request('search') . '%');
-    }
-
-    return view('tasks', [
-        'tasks' => $task->get()
-    ]);
-});
-
-Route::get('/tasks/{task:slug}', function (Task $task) {
-    return view('task', [
-        'task' => $task
-    ]);
-});
+Route::get('/tasks/{task:slug}', [TaskController::class, 'show']);
 
 Route::get('/user/{user:username}', function (User $user) {
     return view('user', [
@@ -48,3 +32,17 @@ Route::get('/clear-cache', function () {
     Cache::flush();
     Return redirect('/');
 });
+
+Route::get('/tasks', [TaskController::class, 'create'])->middleware('auth');
+
+Route::post('create', [TaskController::class, 'store'])->middleware('auth');
+
+Route::get('register', [RegisterController::class, 'create'])->middleware('guest');
+
+Route::post('register', [RegisterController::class, 'store'])->middleware('guest');
+
+Route::get('login', [SessionsController::class, 'create'])->middleware('guest');
+
+Route::post('login', [SessionsController::class, 'store'])->middleware('guest');
+
+Route::post('logout', [SessionsController::class, 'destroy'])->middleware('auth');

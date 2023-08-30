@@ -14,7 +14,30 @@
     </button>
 </a>
 
-@if (!$tasks->count() == 0)
+@guest
+    <a href="/register">
+        <h1>register</h1>
+    </a>
+
+    <a href="/login">
+        <h1>login</h1>
+    </a>
+@endguest
+
+@auth
+    <a href="/tasks">
+        <h1>create task</h1>
+    </a>
+
+    <form action="/logout" method="POST">
+        @csrf
+
+        <button type="submit">Log Out</button>
+    </form>
+@endauth
+
+
+@if ($tasks)
     @foreach ( $tasks as $task)
     <a href="tasks/{{$task->slug}}">
         <h1>{{$task->title}}</h1>
@@ -32,5 +55,6 @@
 
 @endif
 
+{{ $tasks->links()}}
 
 @endsection

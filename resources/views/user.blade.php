@@ -5,9 +5,6 @@
     <h1>All tasks of user</h1>
 
     @foreach ($tasks as $task)
-
-        <p>id of task is: {{$task->id}}</p>
-
         <a href="tasks/{{$task->slug}}">
             <h1>{{$task->title}}</h1>
         </a>
