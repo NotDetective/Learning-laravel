@@ -21,7 +21,7 @@ class TaskController extends Controller
     {
         return view('tasks.task', [
             'task' => $task,
-            'comments' => $task->comments()->with('user')->latest()->get()  
+            'comments' => $task->comments()->with('user')->latest()->get()
         ]);
     }
 
@@ -50,5 +50,27 @@ class TaskController extends Controller
         Task::create($attributes);
 
         return redirect('/');
+    }
+
+    public function edit(Task $task){
+        return view('tasks.update',
+        [
+            'task' => $task
+        ]);
+    }
+
+    public function update(Task $task){
+        $attributes = request()->validate([
+            'title' => 'required',
+            'description' => 'required'
+        ]);
+
+        $task->update($attributes);
+        return redirect('/')->with('success', 'Task updated successfully');
+    }
+
+    public function destroy(Task $task){
+        $task->delete();
+        return redirect('/')->with('success', 'Task deleted successfully');
     }
 }

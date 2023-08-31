@@ -18,4 +18,6 @@
         <button type="submit">add task</button>
 
     </form>
+
+    <x-redirect-button href="/">go back</x-redirect-button>
 @endsection

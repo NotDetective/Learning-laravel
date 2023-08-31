@@ -25,7 +25,7 @@ Route::get('/tasks/{task:slug}', [TaskController::class, 'show']);
 
 Route::get('/user/{user:username}', function (User $user) {
     return view('user', [
-        'tasks' => $user->task->load(['user'])        
+        'tasks' => $user->task->load(['user'])
     ]);
 });
 
@@ -35,17 +35,19 @@ Route::get('/clear-cache', function () {
 });
 
 Route::get('/tasks', [TaskController::class, 'create'])->middleware('auth');
-
 Route::post('create', [TaskController::class, 'store'])->middleware('auth');
+Route::get('tasks/{task}/edit', [TaskController::class, 'edit']);
+Route::patch('tasks/{task}/update', [TaskController::class, 'update']);
+Route::delete('tasks/{task}/delete', [TaskController::class, 'destroy']);
 
 Route::get('register', [RegisterController::class, 'create'])->middleware('guest');
-
 Route::post('register', [RegisterController::class, 'store'])->middleware('guest');
 
 Route::get('login', [SessionsController::class, 'create'])->middleware('guest');
-
 Route::post('login', [SessionsController::class, 'store'])->middleware('guest');
-
 Route::post('logout', [SessionsController::class, 'destroy'])->middleware('auth');
 
 Route::post('/tasks/{task:slug}/comments', [CommentController::class, 'store'])->middleware('auth');
+Route::get('/tasks/{task:slug}/comment/{comment}' , [CommentController::class, 'edit'])->middleware('auth');
+Route::patch('/tasks/{task:slug}/comment/{comment}/edit', [CommentController::class, 'update'])->middleware('auth');
+Route::delete('/tasks/{task:slug}/comment/{comment}', [CommentController::class, 'destroy'])->middleware('auth');

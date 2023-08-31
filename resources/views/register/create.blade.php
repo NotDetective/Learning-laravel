@@ -24,13 +24,12 @@
             <p style="color: red;">{{ $errors->first('password') }}</p>
         @enderror
 
-        
+
 
         <button type="submit">register</button>
 
     </form>
 
-    <a href="/">
-        go back
-    </a>
+    <x-redirect-button href="/">no I dont want to make a account</x-redirect-button>
+
 @endsection

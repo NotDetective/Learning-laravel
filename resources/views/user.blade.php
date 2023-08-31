@@ -15,7 +15,5 @@
         <p>{{ $task->slug }}</p>
     @endforeach
 
-    <a href="/">
-        <h1>Return</h1>
-    </a>
+    <x-redirect-button href="/">go back</x-redirect-button>
 @endsection

@@ -10,7 +10,7 @@
     @error('email')
 
         <p style="color: red;">{{$errors->first('email')}}</p>
-        
+
     @enderror
 
     <input type="password" name="password" id="password" placeholder="password" required>
@@ -18,5 +18,7 @@
     <button type="submit">login</button>
 
 </form>
+
+<x-redirect-button href="/">go back</x-redirect-button>
 
 @endsection

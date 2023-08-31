@@ -2,39 +2,66 @@
 
 @section('content')
 
-<h1>{{$task->title}}</h1>
+    <h1>{{$task->title}}</h1>
 
-<p>{{$task->slug}}</p>
+    <p>{{$task->slug}}</p>
 
-<p>{{$task->description}}</p>
+    <p>{{$task->description}}</p>
 
-<a href="/"><h1>Return</h1></a>
+    <x-redirect-button href="/">go back</x-redirect-button>
 
-@if (auth()->check())
-    <form method="POST" action="/tasks/{{$task->slug}}/comments">
-        @csrf
+    @if($task->user_id == auth()->id())
 
-        <input type="hidden" name="task_id" value="{{$task->id}}">
+        <x-redirect-button href="/tasks/{{$task->id}}/edit">edit task</x-redirect-button>
 
-        <textarea name="body" cols="30" rows="10"></textarea>
+        <form action="/tasks/{{$task->id}}/delete" method="POST">
+            @csrf
+            @method('DELETE')
+            <button>delete task</button>
+        </form>
 
-        <button type="submit">add comment</button>
+    @endif
 
-    </form>
-@endif
+    @if (auth()->check())
+        <form method="POST" action="/tasks/{{$task->slug}}/comments">
+            @csrf
 
-@if ($comments->count())
+            <input type="hidden" name="task_id" value="{{$task->id}}">
 
-    @foreach ($comments as $comment)
-        <p>{{$comment->user->username}}</p>
-        <p>Created {{$comment->created_at->diffForHumans()}}</p>
-        <p>{{$comment->body}}</p>
-    @endforeach
-    
-@else
+            <textarea name="body" cols="30" rows="10"></textarea>
 
-    <p>No comments jet  be the first to add one</p>
+            <button type="submit">add comment</button>
 
-@endif
+        </form>
+    @endif
+
+    @if ($comments->count())
+
+        @foreach ($comments as $comment)
+            <p>{{$comment->user->username}}</p>
+            <p>Created {{$comment->created_at->diffForHumans()}}</p>
+            <p>{{$comment->body}}</p>
+            @if($comment->edited)
+                <p>this commend has been edited!</p>
+            @endif
+            @if($comment->user_id == auth()->id())
+                <a href="/tasks/{{$task->slug}}/comment/{{$comment->id}}">
+                    <button>edit comment</button>
+                </a>
+                <form action="/tasks/{{$task->slug}}/comment/{{$comment->id}}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button>delete comment</button>
+                </form>
+
+            @endif
+
+        @endforeach
+
+    @else
+
+        <p>No comments jet be the first to add one</p>
+
+    @endif
 @endsection
 
