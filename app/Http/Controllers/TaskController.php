@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Task;
+use App\Models\Comment;
 use \App\Models\User;
 use App\Http\Controllers\Controller;
 
@@ -19,7 +20,8 @@ class TaskController extends Controller
     public function show(Task $task)
     {
         return view('tasks.task', [
-            'task' => $task
+            'task' => $task,
+            'comments' => $task->comments()->with('user')->latest()->get()  
         ]);
     }
 
@@ -29,21 +31,21 @@ class TaskController extends Controller
     }
 
     public function store()
-    
-        {$attributes = request()->validate([
+    {
+        $attributes = request()->validate([
             'title' => 'required',
             'description' => 'required',
         ]);
 
 
-        $attributes=[
+        $attributes = [
             'title' => $attributes['title'],
             'description' => $attributes['description'],
             'user_id' => auth()->id(),
-            'slug' => $attributes['title']. '-' . auth()->id() . '-' . time() . '-' . rand(1, 1000000),
+            'slug' => $attributes['title'] . '-' . auth()->id() . '-' . time() . '-' . rand(1, 1000000),
         ];
 
-        
+
 
         Task::create($attributes);
 
