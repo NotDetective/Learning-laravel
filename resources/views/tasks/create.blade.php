@@ -1,23 +1,11 @@
 @extends('layout')
 
 @section('content')
-    <form method="POST" action="/create">
-        @csrf
+    <main class="flex flex-col min-h-screen items-center">
+        <h1 class="mt-6 text-4xl text-indigo-500 font-bold">All tasks of user</h1>
 
-        <input type="text" name="title" placeholder="add title">
-        @error('title')
-            <p style="color: red;">{{ $errors->first('title') }}</p>
-        @enderror
+        <x-task-form action="/create" method="POST"/>
+    </main>
 
-        <textarea name="description" cols="30" rows="10" placeholder="add a description"></textarea>
 
-        @error('description')
-            <p style="color: red;">{{ $errors->first('description') }}</p>
-        @enderror
-
-        <button type="submit">add task</button>
-
-    </form>
-
-    <x-redirect-button href="/">go back</x-redirect-button>
 @endsection

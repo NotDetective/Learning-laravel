@@ -3,34 +3,25 @@
 namespace App\Http\Controllers;
 
 // use Egulias\EmailValidator\Parser\Comment;
+use App\Http\Requests\CommentUpdateOrStoreRequest;
 use App\Models\Comment;
 use App\Models\Task;
 use Illuminate\Routing\Controller;
 
 class CommentController extends Controller
 {
-    public function store()
+    public function store(Task $task,CommentUpdateOrStoreRequest $request)
     {
-
-        $attributes = request()->validate([
-            'body' => 'required',
-            'task_id' => ['required', 'exists:tasks,id'],
-        ]);
-
-        $attributes = [
-            'body' => request('body'),
+        $task->comments()->create([
+            'body' => $request->body,
             'user_id' => auth()->id(),
-            'task_id' => request('task_id'),
-        ];
-
-        Comment::create($attributes);
-
-        return back();
+        ]);
+        return redirect()->route('tasks.show', $task->slug)->with('success', 'Comment created successfully');
     }
 
     public function edit(Task $task, Comment $comment)
     {
-        return view('comment.edit',[
+        return view('comment.edit', [
             'task' => $task,
             'comment' => $comment,
         ]);

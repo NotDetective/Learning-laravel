@@ -2,57 +2,16 @@
 
 @section('content')
 
-    <h1>Task List</h1>
+    <main class="flex flex-col items-center mt-7">
+        <x-title title="Tasks list"/>
 
-    <form method="GET" action="#" name="searchForTask">
-        <input type="text" name="search" placeholder="search for task">
-    </form>
-
-    <a href="/">
-        <button>
-            clear search
-        </button>
-    </a>
-
-    @guest
-        <a href="/register">
-            <h1>register</h1>
-        </a>
-
-        <a href="/login">
-            <h1>login</h1>
-        </a>
-    @endguest
-
-    @auth
-        <a href="/tasks">
-            <h1>create task</h1>
-        </a>
-
-        <form action="/logout" method="POST">
-            @csrf
-
-            <button type="submit">Log Out</button>
-        </form>
-    @endauth
-
-
-    @if ($tasks->count())
-        @foreach ($tasks as $task)
-            <a href="tasks/{{ $task->slug }}">
-                <h1>{{ $task->title }}</h1>
-            </a>
-
-            <a href="/user/{{ $task->user->username }}">
-                <p>made by {{ $task->user->username }}</p>
-            </a>
-
-            <p>{{ $task->slug }}</p>
-        @endforeach
-    @else
-        <p>No task found</p>
-    @endif
-
-    {{ $tasks->links() }}
+        @if ($tasks->count())
+            @foreach ($tasks as $task)
+                    <x-task :task="$task" :index="true"/>
+            @endforeach
+        @else
+            <h1 class="text-2xl text-indigo-500 mt-10">No task found</h1>
+        @endif
+    </main>
 
 @endsection

@@ -11,7 +11,7 @@ class Comment extends Model
 {
     use HasFactory;
 
-    public $guarded = [];
+    public $fillable = ['*'];
 
     public function task()
     {

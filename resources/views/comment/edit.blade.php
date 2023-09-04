@@ -1,19 +1,17 @@
 @extends('layout')
 
 @section('content')
+    <main class="flex flex-col h-screen items-center justify-evenly">
+        <x-title title="Edit your comment!"/>
+        <x-comment-layout>
+            <x-form action="{{route('comment.update', [$task->slug , $comment->id])}}" method="PATCH"
+            class="flex flex-col h-full items-center">
 
-    <form action="/tasks/{{$task->slug}}/comment/{{$comment->id}}/edit" method="POST">
-        @csrf
-        @method('PATCH')
+                <x-form.textarea name="body" :comment="$comment" class="flex-1 w-full">{{$comment->body}}</x-form.textarea>
 
-        <textarea name="body" cols="30" rows="10">{{$comment->body}}</textarea>
-
-        <button type="submit">update comment</button>
-
-    </form>
-
-    @error('body')
-    <p style="color: red;">{{ $errors->first('body') }}</p>
-    @enderror
-
+                <x-button>update comment</x-button>
+            </x-form>
+            <x-form.error name="body"/>
+        </x-comment-layout>
+    </main>
 @endsection

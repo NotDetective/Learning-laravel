@@ -1,19 +1,11 @@
 @extends('layout')
 
 @section('content')
-    <h1>All tasks of user</h1>
+    <main class="flex flex-col min-h-screen items-center">
+        <h1 class="mt-6 text-4xl text-indigo-500 font-bold">All tasks of user</h1>
 
-    @foreach ($tasks as $task)
-        <a href="tasks/{{ $task->slug }}">
-            <h1>{{ $task->title }}</h1>
-        </a>
-
-        <a href="/user/{{ $task->user->username }}">
-            <p>made by {{ $task->user->username }}</p>
-        </a>
-
-        <p>{{ $task->slug }}</p>
-    @endforeach
-
-    <x-redirect-button href="/">go back</x-redirect-button>
+        @foreach ($tasks as $task)
+            <x-tasklist-component :task="$task"/>
+        @endforeach
+    </main>
 @endsection

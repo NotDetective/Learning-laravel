@@ -1,35 +1,33 @@
 @extends('layout')
 
 @section('content')
-    <h1>register</h1>
+    <main class="flex flex-col min-h-screen items-center">
+        <x-title title="register"/>
 
-    <form method="POST" action="/register">
-        @csrf
-
-        <input type="text" name="username" placeholder="username" id="username" required value="{{ old('username') }}">
-
-        @error('username')
-            <p style="color: red;">{{ $errors->first('username') }}</p>
-        @enderror
-
-        <input type="email" name="email" placeholder="email" id="email" required value="{{ old('email') }}">
-
-        @error('email')
-            <p style="color: red;">{{ $errors->first('email') }}</p>
-        @enderror
-
-        <input type="password" name="password" placeholder="password" id="password" required>
-
-        @error('password')
-            <p style="color: red;">{{ $errors->first('password') }}</p>
-        @enderror
+        <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+            <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+                <img class="mx-auto h-10 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+                     alt="Your Company">
+                <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Register your
+                    account</h2>
+            </div>
+            <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+                <x-form action="{{route('register.store')}}" method="POST" class="space-y-6">
+                    <x-form.input name="username" page="register"/>
+                    <x-form.input name="email" type="email" page="register"/>
+                    <x-form.input name="password" type="password" page="register"/>
 
 
+                    <div>
+                        <button type="submit"
+                                class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                            register
+                        </button>
+                    </div>
+                </x-form>
+            </div>
+        </div>
 
-        <button type="submit">register</button>
 
-    </form>
-
-    <x-redirect-button href="/">no I dont want to make a account</x-redirect-button>
-
+    </main>
 @endsection
