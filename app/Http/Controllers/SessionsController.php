@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\http\Requests\SessionUpdateOrStoreRequest;
 
 class SessionsController extends Controller
 {
@@ -12,14 +13,12 @@ class SessionsController extends Controller
         return view('sessions.create');
     }
 
-    public function store()
+    public function store(SessionUpdateOrStoreRequest $request)
     {
-        $attributes = request()->validate([
-            'email' => ['required', 'email', 'max:255'],
-            'password' => ['required', 'max:255']
-        ]);
-
-        if (auth()->attempt($attributes)) {
+        if (auth()->attempt([
+            'email' => $request->email,
+            'password' => $request->password
+        ])) {
             session()->regenerate();
 
             return redirect('/')->with('success', 'Welcome Back!');
@@ -36,4 +35,5 @@ class SessionsController extends Controller
 
         return redirect('/')->with('success', 'Goodbye!');
     }
+
 }

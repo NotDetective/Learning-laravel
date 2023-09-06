@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Task;
+use App\Http\Requests\TaskUpdateOrStoreRequest;
 use App\Models\Comment;
 use \App\Models\User;
 use App\Http\Controllers\Controller;
@@ -30,26 +31,17 @@ class TaskController extends Controller
         return view('tasks.create');
     }
 
-    public function store()
+    public function store(TaskUpdateOrStoreRequest $request)
     {
-        $attributes = request()->validate([
-            'title' => 'required',
-            'description' => 'required',
-        ]);
-
-
-        $attributes = [
-            'title' => $attributes['title'],
-            'description' => $attributes['description'],
-            'user_id' => auth()->id(),
-            'slug' => $attributes['title'] . '-' . auth()->id() . '-' . time() . '-' . rand(1, 1000000),
-        ];
-
-
-
-        Task::create($attributes);
-
-        return redirect('/');
+        Task::create(
+            [
+                'title' => $request->title,
+                'description' => $request->description,
+                'user_id' => auth()->id(),
+                'slug' => $slug = $request->title . '-' . auth()->id() . '-' . time() . '-' . rand(1, 1000000),
+            ]
+        );
+        return redirect()->route('tasks.show', $slug)->with('success', 'Task created successfully');
     }
 
     public function edit(Task $task){
@@ -59,14 +51,14 @@ class TaskController extends Controller
         ]);
     }
 
-    public function update(Task $task){
-        $attributes = request()->validate([
-            'title' => 'required',
-            'description' => 'required'
-        ]);
-
-        $task->update($attributes);
-        return redirect('/')->with('success', 'Task updated successfully');
+    public function update(Task $task,TaskUpdateOrStoreRequest $request){
+        $task->update(
+            [
+                'title' => $request->title,
+                'description' => $request->description,
+            ]
+        );
+        return redirect()->route('tasks.show', $task->slug)->with('success', 'Task updated successfully');
     }
 
     public function destroy(Task $task){

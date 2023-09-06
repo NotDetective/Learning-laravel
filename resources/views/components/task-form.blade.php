@@ -1,6 +1,6 @@
 @props(['task' => null , 'action' => "#" , 'method' => "POST"])
 
-<x-form method="PATCH" :action="$action">
+<x-form :method="$method" :action="$action">
 
 
     <div class="space-y-12">

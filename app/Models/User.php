@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Task;
+use App\Models\Role;
 use App\Models\Comment;
 
 class User extends Authenticatable
@@ -55,4 +56,15 @@ class User extends Authenticatable
     {
         return $this->hasMany(Comment::class);
     }
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class);
+    }
+
+//    public function rolePermissions()
+//    {
+//        return $this->roles()->with('permissions')->get()->pluck('permissions')->flatten()->pluck('system_name')->unique();
+//    }
+
 }

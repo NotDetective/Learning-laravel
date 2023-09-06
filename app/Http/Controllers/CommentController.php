@@ -36,12 +36,12 @@ class CommentController extends Controller
 
         $comment->update($attributes);
 
-        return redirect('/')->with('success', 'Comment updated successfully');
+        return redirect()->route('tasks.show' , $task->slug)->with('success', 'Comment updated successfully');
     }
 
     public function destroy(Task $task, Comment $comment)
     {
         $comment->delete();
-        return back()->with('success', 'Comment deleted successfully');
+        return redirect()->route('tasks.show' , $task->slug)->with('success', 'Comment deleted successfully');
     }
 }

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Validation\Rule;
+use App\Http\Requests\RegisterUpdateOrStoreRequest;
 use Illuminate\Routing\Controller;
 
 class RegisterController extends Controller
@@ -13,18 +13,13 @@ class RegisterController extends Controller
         return view('register.create');
     }
 
-    public function store()
+    public function store(RegisterUpdateOrStoreRequest $request)
     {
-
-        $attributes = request()->validate([
-            'username' => ['required', 'min:3', 'max:255', Rule::unique('users', 'username')],
-            'email' => ['required', 'email', 'max:255', Rule::unique('users', 'email')],
-            'password' => ['required', 'min:7', 'max:255']
-        ]);     
-
-        $user = User::create($attributes);
-
-        auth()->login($user);
+        auth()->login(User::create([
+            'username' => $request->username,
+            'email' => $request->email,
+            'password' => $request->password,
+        ]));
 
         return redirect('/')->with('success', 'Your account has been created.');
     }
