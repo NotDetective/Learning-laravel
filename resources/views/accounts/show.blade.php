@@ -9,7 +9,7 @@
                     <div class="sm:flex-auto">
                         <h1 class="text-base font-semibold leading-6 text-gray-900">Users</h1>
                         <p class="mt-2 text-sm text-gray-700">A list of all the users in your account including their
-                            name, email and role.</p>
+                            username, email and role.</p>
                     </div>
                 </div>
             </div>
@@ -20,7 +20,7 @@
                         <tr>
                             <th scope="col"
                                 class="relative isolate py-3.5 pr-3 text-left text-sm font-semibold text-gray-900">
-                                Name
+                                Username
                                 <div
                                     class="absolute inset-y-0 right-full -z-10 w-screen border-b border-b-gray-200"></div>
                                 <div class="absolute inset-y-0 left-0 -z-10 w-screen border-b border-b-gray-200"></div>
@@ -29,11 +29,10 @@
                                 class=" px-3 py-3.5 text-left text-sm font-semibold text-gray-900 md:table-cell">Email
                             </th>
                             <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Role</th>
-                            @if(hasPermission('account_edit'))
-                                <th scope="col" class="relative py-3.5 pl-3">
-                                    <span class="sr-only">Edit</span>
-                                </th>
-                            @endif
+
+                            <th scope="col" class="relative py-3.5 pl-3">
+                                <span class="sr-only">Edit</span>
+                            </th>
                         </tr>
                         </thead>
                         <tbody>
