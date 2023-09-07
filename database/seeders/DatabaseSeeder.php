@@ -17,38 +17,71 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        Task::factory(10)->create();
 
-        User::factory()->create([
-            'username'=>'FredEx',
-            'email'=>'fred@ex.com',
-            'password'=>'password',
+        $adminUser = User::factory()->create([
+            'username' => 'FredEx',
+            'email' => 'fred@ex.com',
+            'password' => 'password',
             'remember_token' => Str::random(10),
         ]);
 
-        Role::factory()->create([
-            'name'=>'admin',
+
+        Task::factory(10)->create();
+
+        $role = Role::factory()->create([
+            'name' => 'admin',
         ]);
+
+        $role->users()->attach($adminUser);
 
         $permissions = [
-            'users' => [
-                'show',
-                'create',
-            ]
+            'account edit' => [
+                'name' => 'Edit Account',
+                'system_name' => 'account_edit',
+                'object' => 'account',
+                'action' => 'edit',
+            ],
+            'permission add' => [
+                'name' => 'Add Permission',
+                'system_name' => 'permission_add',
+                'object' => 'permissions',
+                'action' => 'add',
+            ],
+            'permission edit' => [
+                'name' => 'Edit Permission',
+                'system_name' => 'permission_edit',
+                'object' => 'permissions',
+                'action' => 'edit',
+            ],
+            'role add' => [
+                'name' => 'Add Role',
+                'system_name' => 'role_add',
+                'object' => 'roles',
+                'action' => 'add',
+            ],
+            'role show' => [
+                'name' => 'Show Role',
+                'system_name' => 'role_show',
+                'object' => 'roles',
+                'action' => 'show',
+            ],
+            'role edit' => [
+                'name' => 'Edit Role',
+                'system_name' => 'role_edit',
+                'object' => 'roles',
+                'action' => 'edit',
+            ],
         ];
 
-        Permission::factory()->create([
-            'name'=>'edit user',
-            'system_name'=>'edit_user',
-            'object'=>'user',
-            'action'=>'edit',
-        ]);
-        Permission::factory()->create([
-            'name'=>'delete user',
-            'system_name'=>'delete_user',
-            'object'=>'user',
-            'action'=>'delete',
-        ]);
+        foreach ($permissions as $permission) {
+            $p = Permission::factory()->create([
+                'name' => $permission['name'],
+                'system_name' => $permission['system_name'],
+                'object' => $permission['object'],
+                'action' => $permission['action'],
+            ]);
+            $role->permissions()->attach($p);
+        }
 
     }
 }

@@ -8,25 +8,23 @@
 
             <x-form.input name="name"/>
 
-{{--            <x-form.input name="system_name"/>--}}
-{{--            system name = $object + $action --}}
-            <div class="flex w-full justify-evenly">
-                <x-form.radio titleName="Object" inputName="object" :values="['user','task','role','permission']" onclick="addSystemName();"/>
-                <x-form.radio titleName="Action" inputName="action" :values="['add','edit','delete']" onclick="addSystemName();"/>
-            </div>
+            <x-form.input name="object"/>
+            <x-form.input name="action"/>
             <input type="hidden" name="system_name">
-            <x-button />
+            <x-button/>
             <x-form.error name="system_name"/>
         </x-form>
     </main>
 
     <script>
         const addSystemName = () => {
-            const object = document.querySelector('input[name="object"]:checked').value;
-            const action = document.querySelector('input[name="action"]:checked').value;
+            const object = document.querySelector('input[name="object"]').value;
+            const action = document.querySelector('input[name="action"]').value;
             const systemName = action + '_' + object;
             console.log(systemName);
             document.querySelector('input[name="system_name"]').value = systemName;
         }
+        document.querySelector('input[name="object"]').addEventListener('change', addSystemName);
+        document.querySelector('input[name="action"]').addEventListener('change', addSystemName);
     </script>
 @endsection

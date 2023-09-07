@@ -15,6 +15,7 @@ class SessionsController extends Controller
 
     public function store(SessionUpdateOrStoreRequest $request)
     {
+        cache()->flush();
         if (auth()->attempt([
             'email' => $request->email,
             'password' => $request->password
@@ -32,7 +33,6 @@ class SessionsController extends Controller
     public function destroy()
     {
         auth()->logout();
-
         return redirect('/')->with('success', 'Goodbye!');
     }
 

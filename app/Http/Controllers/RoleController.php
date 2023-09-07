@@ -50,6 +50,7 @@ class RoleController extends Controller
 
     public function update(RoleUpdateOrStoreRequest $request, Role $role)
     {
+        cache()->forget(auth()->user()->id);
         $role->update([
             'name' => $request->name,
         ]);

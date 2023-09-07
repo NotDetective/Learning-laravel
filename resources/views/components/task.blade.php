@@ -6,7 +6,7 @@
             <x-title title="{{$task->title}}" />
         </a>
 
-        @if($index)
+        @if($index && $task->user != null)
             <a href="{{route('user', $task->user->username)}}">
                 <p class="pb-3">Author: {{$task->user->username}}</p>
             </a>
@@ -21,7 +21,7 @@
             <div class="w-1/3">
                 <x-author-buttons edit_href="{{route('tasks.edit', $task->id)}}"
                                   delete_href="{{route('tasks.destroy', $task->id)}}"
-                                  :user="$task->user_id == auth()->id()"/>
+                                  :user="$task->user_id == auth()->id()" :task="true"/>
             </div>
         @endif
     </div>

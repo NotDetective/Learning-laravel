@@ -7,6 +7,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\AccountController;
+use App\Http\Middleware\HasTheRightPermissions;
 use App\Models\User;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
@@ -25,14 +26,14 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [TaskController::class, 'index']);
 Route::get('/tasks/{task:slug}', [TaskController::class, 'show'])
     ->name('tasks.show');
-Route::get('/tasks', [TaskController::class, 'create'])->middleware('auth');
-Route::get('/create', [TaskController::class, 'create'])->middleware('auth');
-Route::post('/create', [TaskController::class, 'store'])->middleware('auth');
-Route::get('tasks/{task}/edit', [TaskController::class, 'edit'])
+//Route::get('/tasks', [TaskController::class, 'create'])->middleware('has.permissions:task_add');
+Route::get('/create', [TaskController::class, 'create'])->middleware('has.permissions:task_add');
+Route::post('/create', [TaskController::class, 'store'])->middleware('has.permissions:task_add');
+Route::get('tasks/{task}/edit', [TaskController::class, 'edit'])->middleware('has.permissions:task_edit')
     ->name('tasks.edit');
-Route::patch('tasks/{task}/update', [TaskController::class, 'update'])
+Route::patch('tasks/{task}/update', [TaskController::class, 'update'])->middleware('has.permissions:task_edit')
     ->name('tasks.update');
-Route::delete('tasks/{task}/delete', [TaskController::class, 'destroy'])
+Route::delete('tasks/{task}/delete', [TaskController::class, 'destroy'])->middleware('has.permissions:task_delete')
     ->name('tasks.destroy');
 
 //users
@@ -64,23 +65,23 @@ Route::delete('/tasks/{task:slug}/comment/{comment}', [CommentController::class,
     ->name('comment.destroy');
 
 //roles
-Route::get('roles' , [RoleController::class, 'create'])->middleware('auth')
+Route::get('roles' , [RoleController::class, 'create'])->middleware('has.permissions:role_add')
     ->name('role.create');
-Route::post('roles' , [RoleController::class, 'store'])->middleware('auth')
+Route::post('roles' , [RoleController::class, 'store'])->middleware('has.permissions:role_add')
     ->name('role.store');
-Route::get('show' , [RoleController::class, 'show'])->middleware('auth')
+Route::get('show' , [RoleController::class, 'show'])->middleware('has.permissions:role_show')
     ->name('role.show');
-Route::get('roles/{role}/edit' , [RoleController::class, 'edit'])->middleware('auth')
+Route::get('roles/{role}/edit' , [RoleController::class, 'edit'])->middleware('has.permissions:role_edit')
     ->name('role.edit');
-Route::patch('roles/{role}/update' , [RoleController::class, 'update'])->middleware('auth')
+Route::patch('roles/{role}/update' , [RoleController::class, 'update'])->middleware('has.permissions:role_edit')
     ->name('role.update');
-Route::delete('roles/{role}/delete' , [RoleController::class, 'destroy'])->middleware('auth')
+Route::delete('roles/{role}/delete' , [RoleController::class, 'destroy'])->middleware('has.permissions:role_delete')
     ->name('role.destroy');
 
 //permissions
-Route::get('permissions' , [PermissionController::class, 'create'])->middleware('auth')
+Route::get('permissions' , [PermissionController::class, 'create'])->middleware('has.permissions:permission_add')
     ->name('permission.create');
-Route::post('permissions' , [PermissionController::class, 'store'])->middleware('auth')
+Route::post('permissions' , [PermissionController::class, 'store'])->middleware('has.permissions:permission_add')
     ->name('permission.store');
 
 //account
@@ -90,9 +91,11 @@ Route::patch('account/{user}/update', [AccountController::class, 'update'])->mid
     ->name('account.update');
 
 //account admin
-Route::get('account-admin' , [AccountController::class, 'show'])->middleware('auth')
+Route::get('account-admin' , [AccountController::class, 'show'])->middleware('has.permissions:account_show')
     ->name('account.show');
-Route::get('account/{user}/edit-admin', [AccountController::class, 'edit'])->middleware('auth')
+Route::patch('account-admin/{user}/update', [AccountController::class, 'addRole'])->middleware('has.permissions:account_edit')
+    ->name('account.update');
+Route::get('account/{user}/edit-admin', [AccountController::class, 'editAdmin'])->middleware('has.permissions:account_edit')
     ->name('account.edit-admin');
-Route::patch('account/{user}/update-admin', [AccountController::class, 'update'])->middleware('auth')
+Route::patch('account/{user}/update-admin', [AccountController::class, 'updateAdmin'])->middleware('has.permissions:account_edit')
     ->name('account.update-admin');

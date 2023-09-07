@@ -7,7 +7,9 @@
 
         <x-form.input name="name" value="{{$role->name}}"/>
 
-        <x-form.checkbox :array="$permissions" :selected="$selectedPermissions"/>
+        <div class="flex flex-col h-1/2 flex-wrap justify-between">
+            <x-form.checkbox :array="$permissions" :selected="$selectedPermissions"/>
+        </div>
 
         <x-button/>
     </x-form>

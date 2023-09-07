@@ -22,7 +22,7 @@ class SessionUpdateOrStoreRequest extends FormRequest
      */
     public function rules(): array
     {
-        if(request()->isMethod('POST')) // could be patch as well
+        if(request()->isMethod('POST'))
         {
             return [
                 'email' => ['required', 'email', 'max:255', Rule::exists('users', 'email')],
