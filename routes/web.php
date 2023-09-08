@@ -27,7 +27,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [TaskController::class, 'index']);
 Route::get('/tasks/{task:slug}', [TaskController::class, 'show'])
     ->name('tasks.show');
-//Route::get('/tasks', [TaskController::class, 'create'])->middleware('has.permissions:task_add');
 Route::get('/create', [TaskController::class, 'create'])->middleware('has.permissions:task_add');
 Route::post('/create', [TaskController::class, 'store'])->middleware('has.permissions:task_add');
 Route::get('tasks/{task}/edit', [TaskController::class, 'edit'])->middleware('has.permissions:task_edit')
@@ -100,3 +99,8 @@ Route::get('account/{user}/edit-admin', [AccountController::class, 'editAdmin'])
     ->name('account.edit-admin');
 Route::patch('account/{user}/update-admin', [AccountController::class, 'updateAdmin'])->middleware('has.permissions:account_edit')
     ->name('account.update-admin');
+
+//playground
+Route::get('playground', function () {
+    return view('playground');
+});

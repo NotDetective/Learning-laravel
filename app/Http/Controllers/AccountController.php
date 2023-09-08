@@ -13,10 +13,7 @@ class AccountController extends Controller
 
     public function show()
     {
-        return view('accounts.show', [
-            'roles' => Role::all(),
-            'users' => User::with('roles')->get(),
-        ]);
+        return view('accounts.show');
     }
 
     public function addRole(User $user, Request $request)

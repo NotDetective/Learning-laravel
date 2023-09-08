@@ -7,15 +7,12 @@
         <div class="absolute bottom-0 left-0 h-px w-screen bg-gray-100"></div>
     </td>
     <td class=" px-3 py-4 text-sm text-gray-500 md:table-cell">{{$user->email}}</td>
-    <x-form :action="route('account.update' , $user->id)" method="PATCH">
+    <div>
         @if(hasPermission('account_edit') && $user->id != auth()->id())
             <td>
                 <div class="flex flex-wrap w-full">
-                    <x-form.checkbox class="ml-4" :array="$roles" :selected="$user->roles->pluck('id')->toArray()"/>
+                    <livewire:add-role :user="$user" :roles="$roles" />
                 </div>
-            </td>
-            <td class="relative py-4 pl-3 text-right text-sm font-medium">
-                <button class="text-indigo-600 hover:text-indigo-900">update role</button>
             </td>
         @else
             <td>
@@ -32,5 +29,6 @@
                     user</a>
             </td>
         @endif
-    </x-form>
+    </div>
+
 </tr>
