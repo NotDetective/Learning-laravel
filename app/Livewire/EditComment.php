@@ -41,11 +41,13 @@ class EditComment extends Component
     {
         $comment->delete();
         $this->deleted = true;
-        session()->flash('success', 'Comment deleted successfully');
+        return redirect(request()->header('Referer'))->with('success', 'Comment deleted successfully');
     }
 
     public function render()
     {
-        return view('livewire.edit-comment');
+        return view('livewire.edit-comment', [
+            'comment' => Comment::where('id', $this->comment->id)->first(),
+        ]);
     }
 }

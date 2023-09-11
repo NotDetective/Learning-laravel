@@ -14,7 +14,7 @@ class TaskController extends Controller
     public function index()
     {
         return view('tasks.tasks', [
-            'tasks' => Task::with('user')->latest()->filter(request(['search']))->paginate(5)->withQueryString()
+            'tasks' => Task::with('user')->latest()->filter(request(['search']))->paginate(5)->withQueryString(),
         ]);
     }
 
@@ -22,7 +22,9 @@ class TaskController extends Controller
     {
         return view('tasks.task', [
             'task' => $task,
-            'comments' => $task->comments()->with('user')->latest()->get()
+            'comments' => $task->comments()->with('user')->latest()->get(),
+            'images' => $task->getMedia('images'),
+            'files' => $task->getMedia('files'),
         ]);
     }
 
@@ -33,7 +35,7 @@ class TaskController extends Controller
 
     public function store(TaskUpdateOrStoreRequest $request)
     {
-        Task::create(
+        $task = Task::create(
             [
                 'title' => $request->title,
                 'description' => $request->description,
@@ -41,27 +43,69 @@ class TaskController extends Controller
                 'slug' => $slug = $request->title . '-' . auth()->id() . '-' . time() . '-' . rand(1, 1000000),
             ]
         );
+
+        if ($request->hasFile('images')) {
+            $task->addMultipleMediaFromRequest(['images'])
+                ->each(function ($fileAdder) {
+                    $fileAdder->toMediaCollection('images');
+                });
+        }
+
         return redirect()->route('tasks.show', $slug)->with('success', 'Task created successfully');
     }
 
-    public function edit(Task $task){
+    public function edit(Task $task)
+    {
         return view('tasks.update',
-        [
-            'task' => $task
-        ]);
+            [
+                'task' => $task,
+                'images' => $task->getMedia('images'),
+                'files' => $task->getMedia('files'),
+            ]);
     }
 
-    public function update(Task $task,TaskUpdateOrStoreRequest $request){
+    public function update(Task $task, TaskUpdateOrStoreRequest $request)
+    {
         $task->update(
             [
                 'title' => $request->title,
                 'description' => $request->description,
             ]
         );
+
+        if ($request->oldImages != null) {
+            foreach ($request->oldImages as $oldImage) {
+                $task->deleteMedia($oldImage);
+            }
+        }
+
+        if ($request->hasFile('images')) {
+            $task->addMultipleMediaFromRequest(['images'])
+                ->each(function ($fileAdder) {
+                    $fileAdder->toMediaCollection('images');
+                });
+        }
+
+        if ($request->oldFiles != null){
+            foreach ($request->oldFiles as $oldFile) {
+                $task->deleteMedia($oldFile);
+
+            }
+        }
+
+        if ($request->hasFile('files')) {
+            $task->addMultipleMediaFromRequest(['files'])
+                ->each(function ($fileAdder) {
+                    $fileAdder->toMediaCollection('files');
+                });
+        }
+
+
         return redirect()->route('tasks.show', $task->slug)->with('success', 'Task updated successfully');
     }
 
-    public function destroy(Task $task){
+    public function destroy(Task $task)
+    {
         $task->delete();
         return redirect('/')->with('success', 'Task deleted successfully');
     }

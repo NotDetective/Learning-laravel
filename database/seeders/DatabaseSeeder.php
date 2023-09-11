@@ -71,6 +71,18 @@ class DatabaseSeeder extends Seeder
                 'object' => 'roles',
                 'action' => 'edit',
             ],
+            'task add' => [
+                'name' => 'Add Task',
+                'system_name' => 'task_add',
+                'object' => 'tasks',
+                'action' => 'add',
+            ],
+            'task edit' => [
+                'name' => 'Edit Task',
+                'system_name' => 'task_edit',
+                'object' => 'tasks',
+                'action' => 'edit',
+            ],
         ];
 
         foreach ($permissions as $permission) {

@@ -10,9 +10,13 @@ use Laravel\Sanctum\HasApiTokens;
 use App\Models\Task;
 use App\Models\Role;
 use App\Models\Comment;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class User extends Authenticatable
+
+class User extends Authenticatable implements HasMedia
 {
+    use InteractsWithMedia;
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
@@ -47,6 +51,11 @@ class User extends Authenticatable
         $this->attributes['password'] = bcrypt($password);
     }
 
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('profile')->singleFile();
+    }
+
     public function task()
     {
         return $this->hasMany(Task::class);
@@ -61,10 +70,5 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Role::class);
     }
-
-//    public function rolePermissions()
-//    {
-//        return $this->roles()->with('permissions')->get()->pluck('permissions')->flatten()->pluck('system_name')->unique();
-//    }
 
 }

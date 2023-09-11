@@ -6,13 +6,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Comment;
 use App\Models\User;
-
-class Task extends Model
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+class Task extends Model implements HasMedia
 {
+    use InteractsWithMedia;
     use HasFactory;
 
-    protected $guarded = [];
-    // protected $fillable = ['name', 'description'];
+//    protected $guarded = [];
+     protected $fillable = ['title', 'description', 'due_date', 'completed_at', 'slug', 'user_id'];
+
 
     public function scopeFilter($query, array $filters)
     {

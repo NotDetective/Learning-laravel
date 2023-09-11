@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Task List</title>
-    <link rel="shortcut icon" href="img/icon.png" type="image/x-icon">
+    <link rel="shortcut icon" href="../../img/icon.png" type="image/x-icon">
 
     {{--frameworks--}}
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -46,24 +46,42 @@
                                                      :href="route('account.show')">Edit accounts
                                 </x-header.nav-button>
                             @endif
-                            <x-header.nav-button :active="request()->route()->named('sessions.edit' , auth()->id())"
-                                                 :href="Route('account.edit' , auth()->id())">Edit Account
-                            </x-header.nav-button>
-                            <x-header.logout/>
                         @endauth
-                        @guest
-                            <x-header.nav-button :active="request()->is('login')" :href="route('sessions.create')">
-                                login
-                            </x-header.nav-button>
-                            <x-header.nav-button :active="request()->is('register')"
-                                                 :href="route('register.create')">register
-                            </x-header.nav-button>
-                        @endguest
                     </div>
                 </div>
                 <x-header.search-bar/>
+                @auth
+                    <div class="border-t border-gray-200 pb-3 pt-4 z-40" x-data="{ open: false }">
+                        <button @click="open = ! open">
+                            <div class="flex items-center px-4">
+                                <div class="flex-shrink-0">
+                                    <x-icon size="10" :profile="getProfile()"/>
+                                </div>
+                                <div class="ml-3">
+                                    <div class="text-base font-medium text-gray-800">{{auth()->user()->username}}</div>
+                                    <div class="text-base font-medium text-gray-800">{{auth()->user()->email}}</div>
+                                </div>
+                            </div>
+                        </button>
+                        <div class=" space-y-1 bg-white" x-show="open">
+                            <a href="{{Route('account.edit' , auth()->id())}}"
+                               class="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800">Your
+                                Profile</a>
+                            <a href="/logout"
+                               class="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800">Sign
+                                out</a>
+                        </div>
+                    </div>
+                @endauth
+                @guest
+                    <x-header.nav-button :active="request()->is('login')" :href="route('sessions.create')">
+                        login
+                    </x-header.nav-button>
+                    <x-header.nav-button :active="request()->is('register')"
+                                         :href="route('register.create')">register
+                    </x-header.nav-button>
+                @endguest
             </div>
-        </div>
     </nav>
 </header>
 
@@ -71,6 +89,8 @@
 
 <x-notification sessionName="success"/>
 
+<script src="../../js/model.js"></script>
 @livewireScripts
 </body>
+
 </html>

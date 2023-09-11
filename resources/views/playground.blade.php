@@ -13,7 +13,6 @@
 
 <h1>Playground</h1>
 
-
 @livewireScripts
 </body>
 </html>

@@ -13,3 +13,10 @@ function hasPermission($permission)
 {
     return in_array($permission, getUserPermissions());
 }
+
+function getProfile()
+{
+    return Cache::rememberForever(auth()->user()->id . 'Profile', function () {
+        return auth()->user()->getFirstMediaUrl('profile');
+    });
+}
