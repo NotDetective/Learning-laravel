@@ -26,6 +26,14 @@ class Task extends Model implements HasMedia
         }
     }
 
+    public function scopeOrderFilters($query)
+    {
+        $query
+        ->orderby('title', 'ASC')
+        ->orderBy('completed_at', 'ASC')
+        ->orderby('created_at', 'ASC');
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

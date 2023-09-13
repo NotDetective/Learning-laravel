@@ -27,7 +27,7 @@
                     </div>
                 </div>
                 <div class="flex items-center flex-col">
-                    <x-icon :profile="$profile" size="52" />
+                    <x-icon :profile="$profile" size="52"/>
                     <button onclick="openModel('updateProfileModel')">Change Avatar</button>
                 </div>
             </div>
@@ -42,9 +42,13 @@
 
 
     <x-account.update-profile-model modelId="updateProfileModel" :user="$user"/>
-        <x-account.edit-account-model modelId="editUsername" :action="route('account.updateUsername' , $user->id)" edit="username" formId="UpdateUsername"/>
-        <x-account.edit-account-model modelId="editEmail" :action="route('account.updateEmail' , $user->id)" edit="email" formId="UpdateEmail"/>
-        <x-account.edit-account-model modelId="editPassword" :action="route('account.updatePassword' , $user->id)" edit="password" formId="UpdatePassword"/>
-        <x-account.deactivate-model modelId="deactivate" :user="$user"/>
+    <x-account.edit-account-model modelId="editUsername" :action="route('account.updateUsername' , $user->id)"
+                                  edit="username" formId="UpdateUsername"/>
+    <x-account.edit-account-model modelId="editEmail" :action="route('account.updateEmail' , $user->id)" edit="email"
+                                  formId="UpdateEmail"/>
+    <x-account.edit-account-model modelId="editPassword" :action="route('account.updatePassword' , $user->id)"
+                                  edit="password" formId="UpdatePassword"/>
+    <x-account.deactivate-model modelId="deactivate" :user="$user"/>
 
 @endsection
+

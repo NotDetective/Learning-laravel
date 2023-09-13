@@ -157,4 +157,5 @@ class AccountController extends Controller
         $user->delete();
         return redirect('/')->with('success', 'Account has been deleted, Goodbye!');
     }
+
 }

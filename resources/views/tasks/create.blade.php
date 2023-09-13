@@ -11,7 +11,10 @@
                     <x-form :action="route('tasks.store')">
                         <x-form.input name="title"/>
                         <x-form.textarea name="description" class="mt-6 h-32"></x-form.textarea>
+
                         <x-form.file title="Upload some photos with it!" name="images[]" :multiple="true"/>
+
+                        <x-form.file title="Upload some files with it!" name="files[]" :multiple="true"/>
 
                         <x-button name="Add task"/>
                     </x-form>

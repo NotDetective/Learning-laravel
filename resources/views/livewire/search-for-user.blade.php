@@ -5,6 +5,7 @@
                 <h1 class="text-base font-semibold leading-6 text-gray-900">Users</h1>
                 <p class="mt-2 text-sm text-gray-700">A list of all the users in your account including their
                     username, email and role.</p>
+                <a href="{{route('register.create-admin')}}"><x-button name="Add user"/></a>
             </div>
             <div>
                 <label for="search" class="block text-sm font-medium leading-6 text-gray-900">search for user</label>

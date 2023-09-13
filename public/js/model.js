@@ -1,8 +1,13 @@
-console.log('model.js loaded .........');
+// console.log('model.js loaded .........');
 
-const openModel = (id) => {
+const openModel = (id, forced) => {
     const dialog = document.querySelector('#'+ id);
-    dialog.show();
+    dialog.showModal();
+    if(forced){
+        dialog.addEventListener('cancel', (event) => {
+            event.preventDefault();
+        });
+    }
 }
 
 const closeModel = (id) => {

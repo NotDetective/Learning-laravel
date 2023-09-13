@@ -7,7 +7,6 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\AccountController;
-use App\Http\Middleware\HasTheRightPermissions;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
@@ -107,6 +106,20 @@ Route::get('account/{user}/edit-admin', [AccountController::class, 'editAdmin'])
     ->name('account.edit-admin');
 Route::patch('account/{user}/update-admin', [AccountController::class, 'updateAdmin'])->middleware('has.permissions:account_edit')
     ->name('account.update-admin');
+
+//new user by admin
+Route::get('create-account-by-admin', [RegisterController::class, 'createAdmin'])->middleware('auth')
+    ->name('register.create-admin');
+Route::post('store-account-by-admin', [RegisterController::class, 'storeAdmin'])->middleware('auth')
+    ->name('register.store-admin');
+Route::get('edit-password-new-user', [SessionsController::class, 'editNewUserPassword'])->middleware('auth')
+    ->name('sessions.edit-new-user');
+Route::post('store-password-net-user', [SessionsController::class, 'storeNewUserPassword'])->middleware('auth')
+    ->name('sessions.store-new-user');
+
+Route::get('send-mail', function () {
+});
+
 
 //playground
 Route::get('playground', function () {

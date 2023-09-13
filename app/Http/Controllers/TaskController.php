@@ -13,8 +13,13 @@ class TaskController extends Controller
 {
     public function index()
     {
+        $task = Task::with('user')
+            ->latest()
+            ->filter(request(['search'])
+            )->paginate(7)
+            ->withQueryString();
         return view('tasks.tasks', [
-            'tasks' => Task::with('user')->latest()->filter(request(['search']))->paginate(5)->withQueryString(),
+            'tasks' => $task
         ]);
     }
 
@@ -48,6 +53,13 @@ class TaskController extends Controller
             $task->addMultipleMediaFromRequest(['images'])
                 ->each(function ($fileAdder) {
                     $fileAdder->toMediaCollection('images');
+                });
+        }
+
+        if ($request->hasFile('files')) {
+            $task->addMultipleMediaFromRequest(['files'])
+                ->each(function ($fileAdder) {
+                    $fileAdder->toMediaCollection('files');
                 });
         }
 

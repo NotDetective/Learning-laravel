@@ -8,9 +8,7 @@ use App\Models\Role;
 
 class SearchForUser extends Component
 {
-
     public $search;
-
     public function render()
     {
         return view('livewire.search-for-user', [

@@ -1,4 +1,9 @@
-@props(['name'=>'submit'])
+@props(['name'=>'submit','type'=> 'submit', 'form'=>''])
 
 <button
-    class="bg-white border-indigo-500 border-2 rounded mb-2 mt-6 pl-3 pr-3 pb-1 pt-1 hover:bg-gray-100">{{$name}}</button>
+    type="{{$type}}"
+    form="{{$form}}"
+        class="mt-3 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+    {{$name}}
+</button>
+

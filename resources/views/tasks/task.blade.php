@@ -8,6 +8,7 @@
             <x-task :task="$task"/>
         </div>
 
+
         @if($images != null)
             <x-task-media>
                 @foreach($images as $image)
