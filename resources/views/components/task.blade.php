@@ -18,9 +18,9 @@
 
 
         <div class="flex w-2/4 justify-between">
-            <livewire:complete-task :task="$task"/>
+{{--            <livewire:complete-task :task="$task"/>--}}
 
-            <livewire:set-due-date :task="$task"/>
+{{--            <livewire:set-due-date :task="$task"/>--}}
         </div>
 
 
