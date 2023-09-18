@@ -7,6 +7,7 @@ use App\Http\Requests\RegisterUpdateOrStoreRequest;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Str;
+use App\Jobs\SendMail;
 
 class RegisterController extends Controller
 {
@@ -48,7 +49,7 @@ class RegisterController extends Controller
             'body' => 'There is a account created for you. Your password is ' . $password . ' Please login and change your password.',
         ];
 
-        \Mail::to($request->email)->send(new \App\Mail\MyTestMail($details));
+        SendMail::dispatch($request->email, $details);
 
         return redirect()->route('account.show')->with('success', 'An email has been sent to ' . $request->email . ' with the password.');
     }

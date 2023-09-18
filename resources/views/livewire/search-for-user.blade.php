@@ -10,7 +10,7 @@
             <div>
                 <label for="search" class="block text-sm font-medium leading-6 text-gray-900">search for user</label>
                 <div class="relative mt-2 flex items-center">
-                    <input type="text" wire:model.live="search" placeholder="username"
+                    <input type="text" wire:model.live="search" placeholder="username or email"
                            class="block w-full rounded-md border-0 py-1.5 pr-14 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                 </div>
             </div>
@@ -44,6 +44,10 @@
                 @endforeach
                 </tbody>
             </table>
+            <div class="mt-4 w-1/2">
+                {{ $users->links() }}
+            </div>
         </div>
+
     </div>
 </div>

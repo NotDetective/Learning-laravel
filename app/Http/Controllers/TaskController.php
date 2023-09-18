@@ -13,15 +13,9 @@ class TaskController extends Controller
 {
     public function index()
     {
-        $task = Task::with('user')
-            ->latest()
-            ->filter(request(['search'])
-            )->paginate(7)
-            ->withQueryString();
-        return view('tasks.tasks', [
-            'tasks' => $task
-        ]);
+        return view('tasks.tasks');
     }
+
 
     public function show(Task $task)
     {

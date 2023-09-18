@@ -8,30 +8,34 @@ use App\Models\Comment;
 use App\Models\User;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+
 class Task extends Model implements HasMedia
 {
     use InteractsWithMedia;
     use HasFactory;
 
 //    protected $guarded = [];
-     protected $fillable = ['title', 'description', 'due_date', 'completed_at', 'slug', 'user_id'];
+    protected $fillable = ['title', 'description', 'due_date', 'completed_at', 'slug', 'user_id'];
 
 
-    public function scopeFilter($query, array $filters)
+
+    public function scopeFilters($query, $column, $direction)
     {
-        if ($filters['search'] ?? false) {
-            $query
-                ->where('title', 'like', '%' . request('search') . '%')
-                ->orWhere('description', 'like', '%' . request('search') . '%');
+//        , array $filters
+//        if ($filters['search'] ?? false) {
+//            $query
+//                ->where('title', 'like', '%' . request('search') . '%')
+//                ->orWhere('description', 'like', '%' . request('search') . '%');
+//        }
+
+        $direction = $direction == 'ASC' ? 'ASC' : 'DESC';
+        if ($column) {
+            $query->orderby($column, $direction);
         }
-    }
+        else{
+            $query->latest();
+        }
 
-    public function scopeOrderFilters($query)
-    {
-        $query
-        ->orderby('title', 'ASC')
-        ->orderBy('completed_at', 'ASC')
-        ->orderby('created_at', 'ASC');
     }
 
     public function user()
@@ -42,6 +46,5 @@ class Task extends Model implements HasMedia
     public function comments()
     {
         return $this->hasMany(Comment::class);
-        // return $this->hasMany(Comment::class)->oldest();
     }
 }

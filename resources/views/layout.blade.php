@@ -50,7 +50,6 @@
                         @endauth
                     </div>
                 </div>
-                <x-header.search-bar/>
                 @auth
                     <div class="border-t border-gray-200 pb-3 pt-4 z-40" x-data="{ open: false }">
                         <button @click="open = ! open">
