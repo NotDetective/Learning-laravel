@@ -11,7 +11,7 @@
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.2",
         "laravel/tinker": "^2.8",
-        "livewire/livewire": "^3.0",
+        "livewire/livewire": "2.12.6",
         "spatie/image": "^2.2",
         "spatie/laravel-medialibrary": "*"
     },

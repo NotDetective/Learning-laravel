@@ -11,7 +11,9 @@
     {{--frameworks--}}
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     @vite('resources/css/app.css')
+
     @livewireStyles
+
 </head>
 <body>
 <header>
@@ -90,6 +92,7 @@
 <x-notification sessionName="success"/>
 
 <script src="../../js/model.js"></script>
+
 @livewireScripts
 </body>
 
