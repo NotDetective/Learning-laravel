@@ -16,13 +16,24 @@
 
         <p class="pb-3 flex-1 text-center w-3/4 text-lg">{{$task->description}}</p>
 
+        @if($index)
+            @if($task->completed_at)
+                <p class="pb-3">Completed !</p>
+            @else
+                <p class="pb-3">Not Completed Yet</p>
+            @endif
 
-        <div class="flex w-2/4 justify-between">
-{{--            <livewire:complete-task :task="$task"/>--}}
+            @if($task->due_date != null)
+                <p class="pb-3">Due be for: {{ \Carbon\Carbon::parse($task->due_date)->diffForHumans() }}</p>
+            @endif
 
-{{--            <livewire:set-due-date :task="$task"/>--}}
-        </div>
+        @else
+            <div class="flex w-2/4 justify-between">
+                <livewire:complete-task :task="$task"/>
 
+                <livewire:set-due-date :task="$task"/>
+            </div>
+        @endif
 
         <p>Created: {{$task->created_at->diffForHumans()}}</p>
         @if($task->user_id == auth()->id())
