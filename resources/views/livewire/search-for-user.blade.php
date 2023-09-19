@@ -45,7 +45,7 @@
                 </tbody>
             </table>
             <div class="mt-4 w-1/2">
-{{--                {{ $users->links() }}--}}
+                {{ $users->links() }}
             </div>
         </div>
 

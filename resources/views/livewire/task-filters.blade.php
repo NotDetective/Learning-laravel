@@ -45,7 +45,7 @@
             <h1 class="text-2xl text-indigo-500 mt-10">No task found</h1>
         @endif
 
-{{--        {{ $tasks->links() }}--}}
+        {{ $tasks->links() }}
 
     </main>
 </div>

@@ -11,7 +11,7 @@
         @if(hasPermission('account_edit') && $user->id != auth()->id())
             <td>
                 <div class="flex flex-wrap w-full">
-                    <livewire:add-role :user="$user" :roles="$roles" />
+{{--                    <livewire:add-role :user="$user" :roles="$roles" />--}}
                 </div>
             </td>
         @else
