@@ -15,25 +15,32 @@ class TaskFilters extends Component
 
     public $timesLoaded = 0;
 
-    public $search;
+    public $search = '';
 
     public $column = 'created_at';
 
     public $direction = false;
 
-    public $completed = false;
+    public $completed = 0;
 
     public function render()
     {
-        return view('livewire.task-filters',[
-            'tasks' => Task::with('user')->search(['title', 'description'], $this->search)->orderBy($this->column, $this->directionToString())->paginate(10)
+        $task = Task::with('user');
+        if ($this->completed == 1) {
+            $task->whereNotNull('completed_at');
+        }elseif ($this->completed == 2){
+            $task->whereNull('completed_at');
+        }
+        $task->search(['title', 'description'], $this->search)
+            ->orderBy($this->column, $this->directionToString());
+        return view('livewire.task-filters', [
+            'tasks' => $task->paginate(10),
         ]);
     }
 
     public function resetFilters()
     {
-        $this->reset(['column', 'direction', 'completed']);
-        $this->search = '';
+        $this->reset(['search', 'column', 'direction', 'completed']);
     }
 
     public function directionToString()
@@ -56,14 +63,26 @@ class TaskFilters extends Component
     {
         $this->timesLoaded++;
 
-        if ($this->column !== $column){
-            $this -> direction = true;
-        }
-        else{
+        if ($this->column !== $column) {
+            $this->direction = true;
+        } else {
             $this->flipDirection();
         }
         $this->column = $column;
     }
 
+    public function setCompleted()
+    {
+        if ($this->completed == 2) {
+            $this->completed = 0;
+            return;
+        }
+        $this->completed ++;
+    }
+
+    public function getCompletedProperty()
+    {
+        return $this->completed ? 'DESC' : 'ACS';
+    }
 }
 

@@ -22,6 +22,8 @@
 
                     <x-filter-button name="Due Date" column="due_date" :currentColumn="$column" :direction="$direction"/>
 
+                    <x-filter-completed-button :completed="$completed"/>
+
                     <div>
                         <div class="relative flex justify-center ">
                             <input wire:model.live="search" type="text" placeholder="search for task" name="search" id="search" class="block w-full h-full rounded-md border-0 py-1.5 pr-14 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
