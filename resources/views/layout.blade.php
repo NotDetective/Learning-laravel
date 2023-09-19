@@ -82,6 +82,7 @@
                     </x-header.nav-button>
                 @endguest
             </div>
+        </div>
     </nav>
 </header>
 

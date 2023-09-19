@@ -11,11 +11,18 @@ class SearchForUser extends Component
 {
     use WithPagination;
 
-    public $search;
+    public $search = '';
+
+    public $role = [];
+
+    public function mount()
+    {
+        $this->role = Role::all();
+    }
     public function render()
     {
         return view('livewire.search-for-user', [
-            'roles' => Role::all(),
+            'roles' => $this->role,
             'users' => User::with('roles')->search(['username' , 'email'], $this->search)->paginate(6),
         ]);
     }

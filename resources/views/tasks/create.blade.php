@@ -16,7 +16,7 @@
 
                         <x-form.file title="Upload some files with it!" name="files[]" :multiple="true"/>
 
-                        <x-button name="Add task"/>
+                        <x-button type="submit" name="Add task"/>
                     </x-form>
                 </div>
             </div>

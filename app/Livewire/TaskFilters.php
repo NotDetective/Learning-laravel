@@ -23,13 +23,10 @@ class TaskFilters extends Component
 
     public $completed = false;
 
-    public $task = [];
-
     public function render()
     {
-        $this->task = Task::with('user')->search(['title', 'description'], $this->search)->orderBy($this->column, $this->directionToString())->get();
         return view('livewire.task-filters',[
-            'tasks' => $this->task,
+            'tasks' => Task::with('user')->search(['title', 'description'], $this->search)->orderBy($this->column, $this->directionToString())->paginate(10)
         ]);
     }
 
